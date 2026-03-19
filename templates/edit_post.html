@@ -1,49 +1,58 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="form-wrapper">
+<div class="page-wrapper">
 
-    <div class="form-card">
+    <a href="{% url 'post_detail' post.id %}" class="back-link">
+        ← Back to Post
+    </a>
 
-        <!-- HEADER -->
-        <div class="form-header gradient-header">
-            <div class="icon-box">✏️</div>
+    <div class="create-card">
+
+        <div class="create-header">
+            <div class="header-icon">✏️</div>
             <h2>Edit Blog Post</h2>
         </div>
 
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data" class="create-form">
             {% csrf_token %}
 
             <!-- TITLE -->
-            <label>Title *</label>
-            <input type="text"
-                   name="title"
-                   value="{{ post.title }}"
-                   required>
+            <div class="input-group">
+                <label>Title *</label>
+                <input type="text"
+                       name="title"
+                       value="{{ post.title }}"
+                       required>
+            </div>
 
             <!-- IMAGE -->
-            <label>Cover Image (optional)</label>
-            <input type="file" name="image" accept="image/*">
+            <div class="input-group">
+                <label>Cover Image (optional)</label>
+                <input type="file" name="image" accept="image/*">
+            </div>
 
             {% if post.image %}
             <div class="edit-image-preview">
-                <img src="{{ post.image.url }}">
+                <img src="{{ post.image.url }}" alt="Post Image">
             </div>
             {% endif %}
 
             <!-- CONTENT -->
-            <label>Content *</label>
-            <textarea name="content"
-                      rows="12"
-                      required>{{ post.content }}</textarea>
+            <div class="input-group">
+                <label>Content *</label>
+                <textarea name="content"
+                          rows="10"
+                          required>{{ post.content }}</textarea>
+            </div>
 
             <!-- BUTTONS -->
-            <div class="form-buttons">
-                <button type="submit" class="btn-primary">
-                    ✏️ Update Post
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    Update Post
                 </button>
 
-                <a href="{% url 'post_detail' post.id %}" class="btn-secondary">
+                <a href="{% url 'post_detail' post.id %}" class="cancel-btn">
                     Cancel
                 </a>
             </div>

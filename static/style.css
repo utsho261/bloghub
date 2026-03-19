@@ -879,3 +879,23 @@ body {
     color: white;
     transform: translateY(-2px);
 }
+/* EDIT POST IMAGE PREVIEW */
+
+.edit-image-preview {
+    margin: 15px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.edit-image-preview img {
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
