@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="profile-edit-wrapper">
+
+    <div class="profile-edit-card">
+
+        <div class="profile-edit-header">
+            <h2>Edit Profile</h2>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" class="profile-edit-form">
+            {% csrf_token %}
+
+            <label>Bio</label>
+            <textarea name="bio"
+                      rows="4"
+                      placeholder="Write something about yourself...">{{ profile.bio }}</textarea>
+
+            <label>Profile Image</label>
+            <input type="file" name="image" accept="image/*">
+
+            <button type="submit" class="profile-save-btn">
+                Save Changes
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <h2>Welcome Back</h2>
+        <p class="auth-subtitle">Sign in to continue.</p>
+
+        {% if messages %}
+        <div class="auth-messages">
+            {% for message in messages %}
+            <div class="auth-message {{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+
+            <button type="submit" class="auth-btn">
+                Sign In
+            </button>
+
+        </form>
+
+        <p class="auth-footer">
+            Don't have account?
+            <a href="{% url 'register' %}">Create one</a>
+        </p>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <h2>Create Account</h2>
+        <p class="auth-subtitle">Join BlogHub and start sharing.</p>
+
+        {% if messages %}
+        <div class="auth-messages">
+            {% for message in messages %}
+            <div class="auth-message {{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" name="full_name" required>
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" required>
+            </div>
+
+            <button type="submit" class="auth-btn">
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="auth-footer">
+            Already have account?
+            <a href="{% url 'login' %}">Sign In</a>
+        </p>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="form-wrapper">
+
+    <div class="form-card">
+
+        <!-- HEADER -->
+        <div class="form-header gradient-header">
+            <div class="icon-box">✏️</div>
+            <h2>Edit Blog Post</h2>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- TITLE -->
+            <label>Title *</label>
+            <input type="text"
+                   name="title"
+                   value="{{ post.title }}"
+                   required>
+
+            <!-- IMAGE -->
+            <label>Cover Image (optional)</label>
+            <input type="file" name="image" accept="image/*">
+
+            {% if post.image %}
+            <div class="edit-image-preview">
+                <img src="{{ post.image.url }}">
+            </div>
+            {% endif %}
+
+            <!-- CONTENT -->
+            <label>Content *</label>
+            <textarea name="content"
+                      rows="12"
+                      required>{{ post.content }}</textarea>
+
+            <!-- BUTTONS -->
+            <div class="form-buttons">
+                <button type="submit" class="btn-primary">
+                    ✏️ Update Post
+                </button>
+
+                <a href="{% url 'post_detail' post.id %}" class="btn-secondary">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BlogHub</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+
+    <div class="nav-left">
+        <a href="{% url 'home' %}" class="logo-link">
+            <span class="logo-box">📘</span>
+            <span class="logo-text">BlogHub</span>
+        </a>
+    </div>
+
+    <div class="nav-right">
+
+        <a href="{% url 'home' %}" class="nav-link">
+            🏠 Home
+        </a>
+
+        {% if user.is_authenticated %}
+        <a href="{% url 'create_post' %}" class="write-btn">
+            ✏️ Write
+        </a>
+
+        <div class="profile-dropdown">
+
+            <div class="profile-avatar">
+                {% if user.profile.image %}
+                <img src="{{ user.profile.image.url }}">
+                {% else %}
+                {{ user.username|first|upper }}
+                {% endif %}
+            </div>
+
+            <div class="dropdown-menu">
+                <div class="dropdown-header">
+                    <strong>{{ user.first_name }} {{ user.last_name }}</strong>
+                    <small>{{ user.email }}</small>
+                </div>
+
+                <div class="dropdown-divider"></div>
+
+                <a href="{% url 'profile' %}" class="dropdown-item">
+                    👤 Profile
+                </a>
+
+                <a href="{% url 'logout' %}" class="dropdown-item logout">
+                    🚪 Logout
+                </a>
+            </div>
+        </div>
+
+        {% else %}
+        <a href="{% url 'login' %}" class="nav-link">Login</a>
+        <a href="{% url 'register' %}" class="write-btn">Sign Up</a>
+        {% endif %}
+
+    </div>
+
+</nav>
+
+{% block content %}
+{% endblock %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const dropdown = document.querySelector(".profile-dropdown");
+        const toggle = dropdown.querySelector(".profile-avatar");
+        const menu = dropdown.querySelector(".dropdown-menu");
+
+        toggle.addEventListener("click", function(e) {
+            e.stopPropagation();
+            menu.classList.toggle("active");
+        });
+
+        document.addEventListener("click", function(e) {
+            if (!dropdown.contains(e.target)) {
+                menu.classList.remove("active");
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

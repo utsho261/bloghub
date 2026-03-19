@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="profile-wrapper">
+
+    <!-- Back Button -->
+    <a href="{% url 'home' %}" class="back-link">
+        ← Back to Home
+    </a>
+
+    <div class="profile-card">
+
+        <!-- Gradient Banner -->
+        <div class="profile-banner"></div>
+
+        <div class="profile-header-content">
+
+            <!-- Avatar -->
+            <div class="profile-avatar-large">
+                {% if profile.image %}
+                <img src="{{ profile.image.url }}" alt="Profile Image">
+                {% else %}
+                <span class="avatar-letter">
+                        {{ user.first_name|first|upper }}
+                    </span>
+                {% endif %}
+            </div>
+
+            <!-- User Info -->
+            <div class="profile-info">
+
+                <h2 class="profile-name">
+                    {{ user.first_name }} {{ user.last_name }}
+                </h2>
+
+                <p class="profile-email">
+                    {{ user.email }}
+                </p>
+
+                {% if profile.bio %}
+                <p class="profile-bio">
+                    {{ profile.bio|truncatechars:180 }}
+                </p>
+                {% else %}
+                <p class="profile-bio empty-bio">
+                    No bio added yet.
+                </p>
+                {% endif %}
+
+                <!-- Meta -->
+                <div class="profile-meta">
+
+                    <span class="post-count">
+                        {{ user.post_set.count }} Posts
+                    </span>
+
+                    <a href="{% url 'edit_profile' %}" class="edit-profile-btn">
+                        ✏️ Edit Profile
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <h2 class="section-title">My Blog Posts</h2>
+
+    {% if user.post_set.all %}
+    <div class="post-grid">
+
+        {% for post in user.post_set.all %}
+        <div class="post-card">
+
+            {% if post.image %}
+            <div class="post-image">
+                <img src="{{ post.image.url }}" alt="Post Image">
+            </div>
+            {% endif %}
+
+            <div class="post-content">
+
+                <h3>{{ post.title }}</h3>
+
+                <p class="post-desc">
+                    {{ post.content|truncatewords:18 }}
+                </p>
+
+                <div class="card-footer">
+
+                    <div class="card-actions">
+                            <span class="icon-btn">
+                                ❤️ {{ post.likes.count }}
+                            </span>
+
+                        <span class="icon-btn">
+                                💬 {{ post.comments.count }}
+                            </span>
+                    </div>
+
+                    <a href="{% url 'post_detail' post.id %}"
+                       class="read-btn">
+                        Read More →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+    {% else %}
+    <p class="no-post-msg">
+        You haven't written any posts yet.
+    </p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

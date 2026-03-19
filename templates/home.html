@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="hero">
+    <h1>Welcome to BlogHub</h1>
+    <p>Discover amazing stories and ideas from writers around the world.</p>
+</section>
+
+<div class="container">
+    <h2 class="section-title">Latest Posts</h2>
+
+    <div class="post-grid">
+        {% for post in posts %}
+        <div class="post-card">
+
+            {% if post.image %}
+            <div class="post-image">
+                <img src="{{ post.image.url }}">
+            </div>
+            {% endif %}
+
+            <div class="post-content">
+
+                <h3>{{ post.title }}</h3>
+                <p class="post-desc">
+                    {{ post.content|truncatewords:20 }}
+                </p>
+
+                <!-- AUTHOR -->
+                <div class="author-info">
+
+                    <div class="author-avatar">
+                        {% if post.author.profile.image %}
+                        <img src="{{ post.author.profile.image.url }}" alt="Author Image">
+                        {% else %}
+                        <span class="avatar-letter">
+                            {{ post.author.first_name|first|upper }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="author-text">
+                        <strong>
+                            {{ post.author.first_name }} {{ post.author.last_name }}
+                        </strong><br>
+                        <small>{{ post.created_at|date:"d M Y" }}</small>
+                    </div>
+
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="card-footer">
+
+                    <div class="card-actions">
+
+                        {% if user.is_authenticated %}
+                        <form method="POST"
+                              action="{% url 'like_post' post.id %}"
+                              class="like-form">
+                            {% csrf_token %}
+                            <button type="submit" class="icon-btn">
+                                ❤️ {{ post.likes.count }}
+                            </button>
+                        </form>
+                        {% else %}
+                        <a href="{% url 'login' %}" class="icon-btn">
+                            ❤️ {{ post.likes.count }}
+                        </a>
+                        {% endif %}
+
+                        <a href="{% url 'post_detail' post.id %}"
+                           class="icon-btn">
+                            💬 {{ post.comments.count }}
+                        </a>
+
+                    </div>
+
+                    <a href="{% url 'post_detail' post.id %}"
+                       class="read-btn">
+                        Read More →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
